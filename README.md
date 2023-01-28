@@ -1,2 +1,0 @@
-# resumeautocorrection
-ResumeAutoCorrection
