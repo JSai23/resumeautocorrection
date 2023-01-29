@@ -40,14 +40,31 @@ function App() {
     const data = e.target.elements
     const description = data.description.value
     console.log(description)
+    var nwords = []
+    axios({
+      method: "POST",
+      url:"keyword",
+      data: {
+        inputinfo:description
+      }
+    })
+    .then((response) => {
+      const res = response.data
+      //console.log(res)
+      nwords = res.map(function(item) {
+        return item[0]
+      })
+      console.log(nwords)
+      setList(list.concat(nwords))
+
+    }).catch((error) => {
+      console.log(error)
+    })
 
     // api call for new keywords
 
-    var nwords = ["CSS"]
-
     // add newords to keywords list after removing any duplicates
-    nwords = nwords.filter((item) => !list.includes(item))
-    setList(list.concat(nwords))
+    //nwords = nwords.filter((item) => !list.includes(item))
   }
 
   const api = e => {
