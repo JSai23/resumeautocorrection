@@ -8,6 +8,8 @@ function App() {
   const [ list, setList ] = useState(["C++", "Python", "Agile"]);
   const [link, setLink] = useState("");
   const [response, setResponse] = useState("");
+  const [ description, setDescription ] = useState("")
+
 
   const updateLink = e => {
     e.preventDefault()
@@ -20,8 +22,32 @@ function App() {
     e.preventDefault()
     const data = e.target.elements
     const keywords = data.keywords.value
-    const list = keywords.split(",")
-    setList(list)
+    var nwords = keywords.split(",")
+
+    // if clear is in nwords clear the list
+    if (nwords.includes("clear")) {
+      setList([])
+    }
+    else {
+      // add nwords to keywords list after removing any duplicates
+      nwords = nwords.filter((item) => !list.includes(item))
+      setList(list.concat(nwords))
+    }
+  }
+
+  const updateDescription = e => {
+    e.preventDefault()
+    const data = e.target.elements
+    const description = data.description.value
+    console.log(description)
+
+    // api call for new keywords
+
+    var nwords = ["CSS"]
+
+    // add newords to keywords list after removing any duplicates
+    nwords = nwords.filter((item) => !list.includes(item))
+    setList(list.concat(nwords))
   }
 
   const api = e => {
@@ -101,11 +127,21 @@ function App() {
             Submit
           </Button>
         </Form>
+        <h3>Description of Job</h3>
+        <Form onSubmit={updateDescription}>
+          <Form.Group className="mb-3" controlId="description">
+            <Form.Label>Description of Job</Form.Label>
+            <Form.Control as="textarea" rows={3} placeholder="Enter description of job" />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
         <h3>Keywords List</h3>
         <Form onSubmit={updateKeywords}>
           <Form.Group className="mb-3" controlId="keywords">
             <Form.Label>Comma-Seperate Keywords List</Form.Label>
-            <Form.Control type="text" placeholder="Enter a comma seperate list of keywords" />
+            <Form.Control as="textarea" type="text" placeholder="Enter a comma seperate list of keywords" />
           </Form.Group>
           <Button variant="primary" type="submit">
             Submit
